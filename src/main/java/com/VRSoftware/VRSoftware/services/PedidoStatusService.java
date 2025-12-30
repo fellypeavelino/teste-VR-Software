@@ -7,7 +7,11 @@ package com.VRSoftware.VRSoftware.services;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.stereotype.Service;
+
+import com.VRSoftware.VRSoftware.dtos.StatusPedido;
+import com.VRSoftware.VRSoftware.enums.StatusPedidoEnum;
 
 /**
  *
@@ -15,13 +19,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PedidoStatusService {
-    private final Map<UUID, String> statusMap = new ConcurrentHashMap<>();
 
-    public void atualizarStatus(UUID id, String status) {
-        statusMap.put(id, status);
+    private final Map<UUID, StatusPedido> statusMap = new ConcurrentHashMap<>();
+
+    public void atualizarStatus(UUID id, String status, String mensagemErro) {
+        StatusPedido statusPedido = new StatusPedido(id, StatusPedidoEnum.valueOf(status), mensagemErro);
+        statusMap.put(id, statusPedido);
     }
 
-    public String obterStatus(UUID id) {
-        return statusMap.getOrDefault(id, "DESCONHECIDO");
+    public StatusPedido obterStatus(UUID id) {
+        return statusMap.get(id);
     }
 }
