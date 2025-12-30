@@ -12,38 +12,41 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+
+import com.VRSoftware.VRSoftware.enums.QueueEnum;
 
 @Configuration
 public class RabbitConfig {
 
     @Bean
     public Queue pedidosEntrada() {
-        return QueueBuilder.durable("pedidos.entrada.seu-nome")
+        return QueueBuilder.durable(QueueEnum.PEDIDOS_ENTRADA.getQueueName())
                 .withArgument("x-dead-letter-exchange", "")
-                .withArgument("x-dead-letter-routing-key", "pedidos.entrada.seu-nome.dlq")
+                .withArgument("x-dead-letter-routing-key", QueueEnum.PEDIDOS_ENTRADA_DLQ.getQueueName())
                 .build();
     }
 
     @Bean
     public Queue pedidosEntradaDlq() {
         return QueueBuilder
-                .durable("pedidos.entrada.seu-nome.dlq")
+                .durable(QueueEnum.PEDIDOS_ENTRADA_DLQ.getQueueName())
                 .build();
     }
 
     @Bean
     public Queue statusSucesso() {
         return QueueBuilder
-                .durable("pedidos.status.sucesso.seu-nome")
+                .durable(QueueEnum.PEDIDOS_STATUS_SUCESSO.getQueueName())
                 .build();
     }
 
     @Bean
     public Queue statusFalha() {
         return QueueBuilder
-                .durable("pedidos.status.falha.seu-nome")
+                .durable(QueueEnum.PEDIDOS_STATUS_FALHA.getQueueName())
                 .build();
     }
 

@@ -1,5 +1,7 @@
 package com.VRSoftware.VRSoftware.controllers;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,18 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.VRSoftware.VRSoftware.components.PedidoProducer;
 import com.VRSoftware.VRSoftware.dtos.Pedido;
+import com.VRSoftware.VRSoftware.enums.StatusOperacao;
 import com.VRSoftware.VRSoftware.services.PedidoStatusService;
 
 import jakarta.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidoController {
+
     private final PedidoProducer producer;
     private final PedidoStatusService statusService;
-    
-    public PedidoController(PedidoProducer producer, PedidoStatusService statusService){
+
+    public PedidoController(PedidoProducer producer, PedidoStatusService statusService) {
         this.producer = producer;
         this.statusService = statusService;
     }
@@ -29,7 +32,7 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<?> criarPedido(@Valid @RequestBody Pedido pedido) {
         statusService.atualizarStatus(pedido.getId(), "RECEBIDO");
-        producer.enviarPedido(pedido);
+        producer.enviarPedido(pedido, StatusOperacao.ENVIO);
         return ResponseEntity.accepted().body(pedido.getId());
     }
 

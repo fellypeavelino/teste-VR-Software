@@ -8,14 +8,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class Pedido {
-    
-    public Pedido(UUID id, String produto, int quantidade, LocalDateTime dataCriacao){
+
+    public Pedido() {
+
+    }
+
+    public Pedido(UUID id, String produto, int quantidade, LocalDateTime dataCriacao) {
         this.id = id;
         this.produto = produto;
         this.quantidade = quantidade;
         this.dataCriacao = dataCriacao;
     }
-    
+
     @NotNull
     private UUID id;
 
