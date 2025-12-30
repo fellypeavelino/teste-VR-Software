@@ -75,6 +75,12 @@ O fluxo simula o envio de pedidos, processamento assíncrono e retorno de status
 
 ## 🐳 RabbitMQ (Docker)
 
+## Acesso via browser
+### Iniciar o docker primeiro 
+- URL: http://localhost:15672
+- Usuário: guest
+- Senha: guest
+
 ### `docker-compose.yml`
 
 ```yaml
@@ -90,13 +96,53 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+```
+
+## Endpoints da API
+
+A API expõe os seguintes endpoints para criação e acompanhamento de pedidos assíncronos.
+
 ---
 
-## Acesso via browser
-### Iniciar o docker primeiro 
-- URL: http://localhost:15672
-- Usuário: guest
-- Senha: guest
+### Pedidos
 
+---
 
+### Criar Pedido
 
+- **POST `/api/pedidos`** – Cria um novo pedido e o envia para processamento assíncrono.
+
+- **Headers:**
+  - `Content-Type: application/json`
+
+- **Payload:**
+```json
+    {
+        "id": "9f1c2c4a-3a47-4a7c-b9c1-8f2d9c2b7e31",
+        "produto": "Notebook Dell Inspiron",
+        "quantidade": 2,
+        "dataCriacao": "2025-12-29T16:30:00"
+    }
+```
+
+## Campos obrigatórios:
+
+- produto
+- quantidade
+
+## Resposta (HTTP 202 – Accepted):
+
+```json
+    {
+        "id": "9f1c2c4a-3a47-4a7c-b9c1-8f2d9c2b7e31",
+    }
+```
+## Consultar Status do Pedido
+
+### GET /api/pedidos/status/{id} – Consulta o status atual de um pedido.
+
+- Parâmetros de URL:
+id (UUID do pedido)
+
+- Exemplo de Requisição:
+GET /api/pedidos/status/b0210710-0b18-46d0-9503-d8cde94b41ca
