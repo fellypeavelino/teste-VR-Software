@@ -41,7 +41,7 @@ O fluxo simula o envio de pedidos, processamento assíncrono e retorno de status
 - RabbitMQ
 
 ### Desktop
-- Java Swing
+- Java Swing (esta dentro do diretorio vr_software)
 - Jackson Databind
 - `java.net.http.HttpClient`
 - Maven
