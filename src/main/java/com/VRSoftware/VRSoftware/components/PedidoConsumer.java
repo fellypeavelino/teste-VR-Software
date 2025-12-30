@@ -23,7 +23,7 @@ public class PedidoConsumer {
         this.statusService = statusService;
     }
 
-    @RabbitListener(queues = "pedidos.entrada.seu-nome.dlq")
+    @RabbitListener(queues = "pedidos.entrada.pedro-felipe.dlq")
     public void processar(Pedido pedido) throws Exception {
         statusService.atualizarStatus(pedido.getId(), StatusPedidoEnum.PROCESSANDO.name(), null);
         Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 3000));

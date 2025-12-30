@@ -1,10 +1,10 @@
 package com.VRSoftware.VRSoftware.enums;
 
 public enum QueueEnum {
-    PEDIDOS_ENTRADA("pedidos.entrada.seu-nome"),
-    PEDIDOS_ENTRADA_DLQ("pedidos.entrada.seu-nome.dlq"),
-    PEDIDOS_STATUS_SUCESSO("pedidos.status.sucesso.seu-nome"),
-    PEDIDOS_STATUS_FALHA("pedidos.status.falha.seu-nome");
+    PEDIDOS_ENTRADA("pedidos.entrada.pedro-felipe"),
+    PEDIDOS_ENTRADA_DLQ("pedidos.entrada.pedro-felipe.dlq"),
+    PEDIDOS_STATUS_SUCESSO("pedidos.status.sucesso.pedro-felipe"),
+    PEDIDOS_STATUS_FALHA("pedidos.status.falha.pedro-felipe");
 
     private final String queueName;
 
