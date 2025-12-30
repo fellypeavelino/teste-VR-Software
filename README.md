@@ -14,6 +14,7 @@ O fluxo simula o envio de pedidos, processamento assíncrono e retorno de status
 ---
 
 ## 🧱 Arquitetura
+```ascii
 ┌──────────────┐ HTTP ┌────────────────┐
 │ Java Swing │ ───────────────▶ │ Spring Boot │
 │ (Cliente) │ │ API REST │
@@ -25,7 +26,7 @@ O fluxo simula o envio de pedidos, processamento assíncrono e retorno de status
 │ RabbitMQ │
 │ (Filas) │
 └──────────────┘
-
+```
 
 ---
 
@@ -146,3 +147,54 @@ id (UUID do pedido)
 
 - Exemplo de Requisição:
 GET /api/pedidos/status/b0210710-0b18-46d0-9503-d8cde94b41ca
+
+- Resposta – Pedido em Processamento (HTTP 200):
+```json
+    {
+        "idPedido": "b0210710-0b18-46d0-9503-d8cde94b41ca",
+        "status": "PROCESSANDO",
+        "mensagem": "Pedido ainda está em processamento"
+    }
+```
+- Resposta – Pedido Processado com Sucesso (HTTP 200):
+```json
+    {
+        "idPedido": "b0210710-0b18-46d0-9503-d8cde94b41ca",
+        "status": "SUCESSO",
+        "mensagemErro": null,
+        "dataProcessamento": "2025-12-30T11:14:35"
+    }
+```
+- Resposta – Falha no Processamento (HTTP 200):
+```json
+    {
+        "idPedido": "b0210710-0b18-46d0-9503-d8cde94b41ca",
+        "status": "FALHA",
+        "mensagemErro": "Erro ao processar pedido",
+        "dataProcessamento": "2025-12-30T11:14:35"
+    }
+
+```
+- Resposta – Pedido Não Encontrado (HTTP 404):
+```json
+    {
+        "erro": "Pedido não encontrado"
+    }
+```
+# Gerenciamento de Status de Pedidos
+
+## Status Possíveis do Pedido
+
+| Status       | Descrição                                   |
+|--------------|---------------------------------------------|
+| **RECEBIDO**   | Pedido recebido pela API                    |
+| **PROCESSANDO**| Pedido em processamento                     |
+| **SUCESSO**    | Pedido processado com sucesso               |
+| **FALHA**      | Falha durante o processamento               |
+
+## Observações
+
+- **Processamento Assíncrono**: Os pedidos são processados de forma assíncrona
+- **Consulta via Polling**: O status é consultado via polling pelo cliente Swing
+- **Comunicação RabbitMQ**: A comunicação entre serviços é feita através do RabbitMQ
+- **Sem Persistência**: Não há persistência em banco de dados
